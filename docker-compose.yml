@@ -1,0 +1,31 @@
+# Sample docker-compose.yaml file.
+#
+# Place this file in root path of your PHP App and run:
+#
+#   ~# export HOST_IP=<YOUR_HOST_IP> && docker-compose up
+#
+
+version: '3'
+
+services:
+
+  webserver:
+    build: .
+    volumes:
+      - .:/var/www/html
+    environment:
+      XDEBUG_CONFIG: remote_host=${HOST_IP}
+    ports:
+      - "80:80"
+
+  mysql:
+    image: mysql:5
+    environment:
+      MYSQL_DATABASE: ddbb
+      MYSQL_ROOT_PASSWORD: s3cr3t
+    restart: always
+    volumes:
+      - data-volume:/var/lib/mysql
+
+volumes:
+  data-volume:
